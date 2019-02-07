@@ -1,13 +1,13 @@
 package config
 
 import (
-	"github.com/simplewayua/chatbot-reminder/models"
+	"github.com/simplewayua/chatbot-reminder/dialogflowmap"
 	"os"
 )
 
-var dp models.DialogFlowProcessor
+var dp dialogflowmap.DialogFlowProcessor
 
-func AuthDialogFlow() (*models.DialogFlowProcessor, error) {
+func AuthDialogFlow() (*dialogflowmap.DialogFlowProcessor, error) {
 	dp, err := dp.Init(
 		os.Getenv("PROJECT_ID"),
 		os.Getenv("AUTH_JSON_FILE_PATH"),

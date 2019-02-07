@@ -1,4 +1,4 @@
-package models
+package dialogflowmap
 
 import (
 	dialogflow "cloud.google.com/go/dialogflow/apiv2"

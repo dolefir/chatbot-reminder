@@ -4,12 +4,12 @@ import (
 	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"github.com/simplewayua/chatbot-reminder/config"
-	"github.com/simplewayua/chatbot-reminder/models"
+	"github.com/simplewayua/chatbot-reminder/dialogflowmap"
 	"io/ioutil"
 	"net/http"
 )
 
-var dp models.DialogFlowProcessor
+var dp dialogflowmap.DialogFlowProcessor
 
 // BotRequestHandler ...
 func BotRequestHandler(c *gin.Context) {
