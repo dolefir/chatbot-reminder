@@ -36,11 +36,14 @@ func BotRequestHandler(c *gin.Context) {
 	}
 
 	// Use NPLResponse
-	response := dp.ProcessNPL(m.Message, "UserName")
-	r, err := r.ToReminder(&response)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"status": "Error reading request body"})
+	NPLResponse := dp.ProcessNPL(m.Message, "UserName")
+	if NPLResponse.Intent == "GetDateWithTime" {
+		result, err := r.ToReminder(&NPLResponse)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"status": "Error reading request body"})
+		}
+		result.SaveData()
 	}
-	r.SaveData()
-	c.JSON(http.StatusOK, response)
+
+	c.JSON(http.StatusOK, NPLResponse)
 }

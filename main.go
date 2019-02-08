@@ -11,16 +11,17 @@ import (
 )
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
 	if err := db.ConnectDB(); err != nil {
 		panic(err)
 	}
 	models.AutoMigrate()
 	defer db.CloseDB()
 
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
 	r := gin.Default()
 	fmt.Println("Started listening ... 🚀🚀🚀")
 	r.POST("/bot", controllers.BotRequestHandler)

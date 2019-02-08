@@ -8,4 +8,5 @@ import (
 func AutoMigrate() {
 	var getDB = db.GetDB()
 	getDB.AutoMigrate(&User{})
+	getDB.AutoMigrate(&Reminder{})
 }

@@ -2,6 +2,7 @@ package db
 
 import (
 	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"log"
 	"os"
 )
@@ -16,10 +17,7 @@ var (
 func ConnectDB() error {
 	db, err = gorm.Open(
 		"postgres",
-		"host="+os.Getenv("PG_HOST")+
-			"user="+os.Getenv("PG_USER")+
-			"dbname="+os.Getenv("PG_DBNAME")+
-			"sslmode=disable password="+os.Getenv("PG_PASSWORD")+"")
+		"host="+os.Getenv("PG_HOST")+" user="+os.Getenv("PG_USER")+" dbname="+os.Getenv("PG_DBNAME")+" sslmode=disable password="+os.Getenv("PG_PASSWORD")+"")
 	if err != nil {
 		return err
 	}
