@@ -62,11 +62,13 @@ func (db *DialogFlowProcessor) ProcessNPL(rawMessage, username string) (r NPLRes
 			},
 		},
 	}
+
 	response, err := db.sessionClient.DetectIntent(db.ctx, &req)
 	if err != nil {
 		log.Fatalf("Error comunication with DialogFlow %s", err.Error())
 		return
 	}
+
 	queryResult := response.GetQueryResult()
 	if queryResult.Intent != nil {
 		r.Intent = queryResult.Intent.DisplayName
@@ -77,6 +79,7 @@ func (db *DialogFlowProcessor) ProcessNPL(rawMessage, username string) (r NPLRes
 	// *structpb.Value
 	if r.Intent == "GetDateWithTime" {
 		outputContexts := queryResult.OutputContexts
+
 		if len(outputContexts) > 0 {
 			for _, value := range outputContexts {
 				params := value.Parameters.GetFields()
@@ -87,6 +90,7 @@ func (db *DialogFlowProcessor) ProcessNPL(rawMessage, username string) (r NPLRes
 			}
 		}
 	}
+
 	params := queryResult.Parameters.GetFields()
 	if len(params) > 0 {
 		for name, p := range params {

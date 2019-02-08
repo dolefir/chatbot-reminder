@@ -25,5 +25,7 @@ func main() {
 	r := gin.Default()
 	fmt.Println("Started listening ... 🚀🚀🚀")
 	r.POST("/bot", controllers.BotRequestHandler)
-	r.Run() // listen and serve on 0.0.0.0:8080
+	r.GET("/webhook", controllers.VerificationWebhookHandler)
+	r.POST("/webhook", controllers.MessagesWebhookHandler)
+	r.Run(":3000") // listen and serve on 0.0.0.0:8080
 }

@@ -7,7 +7,9 @@ import (
 	"github.com/simplewayua/chatbot-reminder/dialogflowmap"
 	"github.com/simplewayua/chatbot-reminder/models"
 	"io/ioutil"
+	"log"
 	"net/http"
+	"os"
 )
 
 var dp dialogflowmap.DialogFlowProcessor
@@ -46,4 +48,34 @@ func BotRequestHandler(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, NPLResponse)
+}
+
+// VerificationWebhookHandler ...
+func VerificationWebhookHandler(c *gin.Context) {
+	challenge := c.Query("hub.challenge")
+	mode := c.Query("hub.mode")
+	token := c.Query("hub.verify_token")
+
+	if mode != "" && token == os.Getenv("VERIFY_TOKEN") {
+		c.Data(200, "value", []byte(challenge))
+	} else {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Error, wrong validation token"})
+	}
+}
+
+// MessagesWebhookHandler ...
+func MessagesWebhookHandler(c *gin.Context) {
+	var callback models.Callback
+	json.NewDecoder(c.Request.Body).Decode(&callback)
+	log.Println(callback.Object)
+	if callback.Object == "page" {
+		for _, entry := range callback.Entry {
+			for _, event := range entry.Messaging {
+				log.Println(event.Message.Text)
+			}
+		}
+		c.Data(http.StatusOK, "message", []byte("Got your message"))
+	} else {
+		c.Data(http.StatusNotFound, "message", []byte("Message not supported"))
+	}
 }
