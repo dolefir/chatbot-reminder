@@ -5,10 +5,18 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"github.com/simplewayua/chatbot-reminder/controllers"
+	"github.com/simplewayua/chatbot-reminder/db"
+	"github.com/simplewayua/chatbot-reminder/models"
 	"log"
 )
 
 func main() {
+	if err := db.ConnectDB(); err != nil {
+		panic(err)
+	}
+	models.AutoMigrate()
+	defer db.CloseDB()
+
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")

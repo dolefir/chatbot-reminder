@@ -5,11 +5,12 @@ import (
 	"time"
 )
 
-// User model
+// User has many Reminders, ID is the foreign key
 type User struct {
 	ID        uint   `gorm:"primary_key"`
 	Name      string `gorm:"NOT NULL"`
 	CreatedAt time.Time
+	Reminders []Reminder `gorm:"foreignkey:ID"`
 }
 
 // SaveData ...
