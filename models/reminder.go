@@ -4,13 +4,16 @@ import (
 	"encoding/json"
 	"github.com/simplewayua/chatbot-reminder/db"
 	"github.com/simplewayua/chatbot-reminder/dialogflowmap"
+	"strings"
 )
 
 // Reminder ...
 type Reminder struct {
-	ID   uint   `gorm:"primary_key"`
-	Text string `gorm:"NOT NULL"`
-	Time string
+	ID     uint   `gorm:"primary_key"`
+	Text   string `gorm:"NOT NULL"`
+	Time   string
+	User   User `gorm:"association_foreignkey:Name"`
+	NameID string
 }
 
 // NPL ...
@@ -52,4 +55,13 @@ func (r *Reminder) ToReminder(response *dialogflowmap.NPLResponse) (*Reminder, e
 		Time: npl.Entities.Datewithtime,
 	}
 	return &reminder, nil
+}
+
+// GetTimesReminder ...
+func (r *Reminder) GetTimesReminder(t string) (rems []Reminder) {
+	var getDB = db.GetDB()
+	s := strings.Split(t, "T")
+	tm, _ := s[0], s[1]
+	getDB.Where("time LIKE ?", tm+"%").Find(&rems)
+	return
 }

@@ -8,9 +8,8 @@ import (
 // User has many Reminders, ID is the foreign key
 type User struct {
 	ID        uint   `gorm:"primary_key"`
-	Name      string `gorm:"NOT NULL"`
+	Name      string `gorm:"unique;not null"`
 	CreatedAt time.Time
-	Reminders []Reminder `gorm:"foreignkey:ID"`
 }
 
 // SaveData ...

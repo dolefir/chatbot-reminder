@@ -23,47 +23,49 @@ type DialogFlowProcessor struct {
 
 // NPLResponse action struct for response Diagnostic info
 type NPLResponse struct {
-	Intent     string            `json:"intent"`
-	Confidence float32           `json:"confidence"`
-	Entities   map[string]string `json:"entities"`
+	FulfillmentText string            `json:"FulfillmentText"`
+	Intent          string            `json:"intent"`
+	Confidence      float32           `json:"confidence"`
+	Entities        map[string]string `json:"entities"`
 }
 
 var dp DialogFlowProcessor
 
-func (db *DialogFlowProcessor) Init(arr ...string) (*DialogFlowProcessor, error) {
-	db.projectID = arr[0]
-	db.authJSONFilePath = arr[1]
-	db.lang = arr[2]
-	db.timeZone = arr[3]
+func (dp *DialogFlowProcessor) Init(arr ...string) (*DialogFlowProcessor, error) {
+	dp.projectID = arr[0]
+	dp.authJSONFilePath = arr[1]
+	dp.lang = arr[2]
+	dp.timeZone = arr[3]
 
-	db.ctx = context.Background()
-	sessionClient, err := dialogflow.NewSessionsClient(db.ctx, option.WithCredentialsFile(db.authJSONFilePath))
+	dp.ctx = context.Background()
+	sessionClient, err := dialogflow.NewSessionsClient(dp.ctx, option.WithCredentialsFile(dp.authJSONFilePath))
 	if err != nil {
 		log.Fatal("Error in auth with DialogFlow")
 	}
-	db.sessionClient = sessionClient
+	dp.sessionClient = sessionClient
 
-	return db, nil
+	return dp, nil
 }
 
-func (db *DialogFlowProcessor) ProcessNPL(rawMessage, username string) (r NPLResponse) {
+func (dp *DialogFlowProcessor) ProcessNPL(rawMessage, username string) (r NPLResponse) {
 	sessionID := username
 	req := dialogflowpb.DetectIntentRequest{
-		Session: fmt.Sprintf("projects/%s/agent/sessions/%s", db.projectID, sessionID),
+		Session: fmt.Sprintf("projects/%s/agent/sessions/%s", dp.projectID, sessionID),
 		QueryParams: &dialogflowpb.QueryParameters{
-			TimeZone: db.timeZone,
+			TimeZone: dp.timeZone,
 		},
 		QueryInput: &dialogflowpb.QueryInput{
 			Input: &dialogflowpb.QueryInput_Text{
 				Text: &dialogflowpb.TextInput{
 					Text:         rawMessage,
-					LanguageCode: db.lang,
+					LanguageCode: dp.lang,
 				},
 			},
 		},
 	}
 
-	response, err := db.sessionClient.DetectIntent(db.ctx, &req)
+	log.Println(dp.ctx)
+	response, err := dp.sessionClient.DetectIntent(dp.ctx, &req)
 	if err != nil {
 		log.Fatalf("Error comunication with DialogFlow %s", err.Error())
 		return
@@ -75,6 +77,7 @@ func (db *DialogFlowProcessor) ProcessNPL(rawMessage, username string) (r NPLRes
 		r.Confidence = float32(queryResult.IntentDetectionConfidence)
 	}
 
+	r.FulfillmentText = queryResult.FulfillmentText
 	r.Entities = make(map[string]string)
 	// *structpb.Value
 	if r.Intent == "GetDateWithTime" {

@@ -43,3 +43,11 @@
 [[constraint]]
   name = "github.com/jinzhu/gorm"
   version = "1.9.2"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/mlabouardy/dialogflow-go-client"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/mileusna/facebook-messenger"
