@@ -102,10 +102,11 @@ func MessagesWebhookHandler(c *gin.Context) {
 					if err != nil {
 						msng.SendTextMessage(userID, "Sorry have a trouble! :(")
 					}
+
 					result.NameID = strconv.Itoa(int(userID))
 					result.SaveData()
+
 					user.Name = strconv.Itoa(int(userID))
-					// user.Reminder = *result
 					user.SaveData()
 				}
 
@@ -117,11 +118,13 @@ func MessagesWebhookHandler(c *gin.Context) {
 						}
 					}
 				}
+
 				if res.Intent == "DeleteReminder" {
 					for _, k := range res.Entities {
 						r.DeleteReminder(k)
 					}
 				}
+
 				msng.SendTextMessage(userID, res.FulfillmentText)
 
 			case msg.Delivery != nil:
