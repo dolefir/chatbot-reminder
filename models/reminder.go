@@ -70,3 +70,8 @@ func (r *Reminder) DeleteReminder(t string) {
 	var getDB = db.GetDB()
 	getDB.Where("text LIKE ?", "%"+t+"%").Delete(Reminder{})
 }
+
+// GetAllTimeReminder for notification
+func (r *Reminder) GetAllTimeReminder() []Reminder {
+	return nil
+}

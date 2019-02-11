@@ -91,7 +91,7 @@ func MessagesWebhookHandler(c *gin.Context) {
 			// it can only be one of this, so we use switch
 			switch {
 			case msg.Message != nil:
-				log.Println("Msg received with content:", msg.Message.Text)
+				// log.Println("Msg received with content:", msg.Message.Text)
 				// msng.SendTextMessage(userID, "Hello there")
 				// check First example for more sending messages examples
 
@@ -113,8 +113,13 @@ func MessagesWebhookHandler(c *gin.Context) {
 				if res.Intent == "GetListReminder" {
 					for _, k := range res.Entities {
 						lists := r.GetTimesReminder(k)
-						for _, text := range lists {
-							msng.SendTextMessage(userID, text.Text)
+
+						if len(lists) > 0 {
+							for _, text := range lists {
+								msng.SendTextMessage(userID, text.Text)
+							}
+						} else {
+							msng.SendTextMessage(userID, "You don't have reminders for the selected time.")
 						}
 					}
 				}

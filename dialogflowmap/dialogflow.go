@@ -64,7 +64,6 @@ func (dp *DialogFlowProcessor) ProcessNPL(rawMessage, username string) (r NPLRes
 		},
 	}
 
-	log.Println(dp.ctx)
 	response, err := dp.sessionClient.DetectIntent(dp.ctx, &req)
 	if err != nil {
 		log.Fatalf("Error comunication with DialogFlow %s", err.Error())
