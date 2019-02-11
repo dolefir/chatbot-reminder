@@ -9,11 +9,12 @@ import (
 
 // Reminder ...
 type Reminder struct {
-	ID     uint   `gorm:"primary_key"`
-	Text   string `gorm:"NOT NULL"`
-	Time   string
-	User   User `gorm:"association_foreignkey:Name"`
-	NameID string
+	ID       uint   `gorm:"primary_key"`
+	Text     string `gorm:"NOT NULL"`
+	Time     string
+	User     User `gorm:"association_foreignkey:Name"`
+	NameID   string
+	Position uint
 }
 
 // NPL ...
@@ -51,8 +52,9 @@ func (r *Reminder) ToReminder(response *dialogflowmap.NPLResponse) (*Reminder, e
 	}
 
 	reminder := Reminder{
-		Text: npl.Entities.Text,
-		Time: npl.Entities.Datewithtime,
+		Text:     npl.Entities.Text,
+		Time:     npl.Entities.Datewithtime,
+		Position: 0,
 	}
 	return &reminder, nil
 }
@@ -61,17 +63,27 @@ func (r *Reminder) ToReminder(response *dialogflowmap.NPLResponse) (*Reminder, e
 func (r *Reminder) GetTimesReminder(t string) (rems []Reminder) {
 	var getDB = db.GetDB()
 	s := strings.Split(t, "T")
-	tm, _ := s[0], s[1]
+	tm := s[0]
 	getDB.Where("time LIKE ?", tm+"%").Find(&rems)
 	return
 }
 
+// DeleteReminder ...
 func (r *Reminder) DeleteReminder(t string) {
 	var getDB = db.GetDB()
 	getDB.Where("text LIKE ?", "%"+t+"%").Delete(Reminder{})
 }
 
 // GetAllTimeReminder for notification
-func (r *Reminder) GetAllTimeReminder() []Reminder {
-	return nil
+func (r *Reminder) GetAllTimeReminder() (rems []Reminder) {
+	var getDB = db.GetDB()
+	getDB.Find(&rems)
+	return rems
+}
+
+// UpdateReminderPosition ...
+func (r *Reminder) UpdateReminderPosition(v Reminder) *Reminder {
+	var getDB = db.GetDB()
+	getDB.Where("text = ?", v.Text).First(&v)
+	return &v
 }
