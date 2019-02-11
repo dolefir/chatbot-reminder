@@ -64,7 +64,7 @@ func (r *Reminder) GetTimesReminder(t string) (rems []Reminder) {
 	var getDB = db.GetDB()
 	s := strings.Split(t, "T")
 	tm := s[0]
-	getDB.Where("time LIKE ?", tm+"%").Find(&rems)
+	getDB.Where("time LIKE ? AND position = ?", tm+"%", 0).Find(&rems)
 	return
 }
 
