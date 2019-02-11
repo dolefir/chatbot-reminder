@@ -65,3 +65,8 @@ func (r *Reminder) GetTimesReminder(t string) (rems []Reminder) {
 	getDB.Where("time LIKE ?", tm+"%").Find(&rems)
 	return
 }
+
+func (r *Reminder) DeleteReminder(t string) {
+	var getDB = db.GetDB()
+	getDB.Where("text LIKE ?", "%"+t+"%").Delete(Reminder{})
+}

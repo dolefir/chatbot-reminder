@@ -17,7 +17,7 @@ import (
 var dp dialogflowmap.DialogFlowProcessor
 var r models.Reminder
 
-// BotRequestHandler ...
+// BotRequestHandler for testing postman
 func BotRequestHandler(c *gin.Context) {
 	dp, err := config.AuthDialogFlow()
 	if err != nil {
@@ -117,7 +117,11 @@ func MessagesWebhookHandler(c *gin.Context) {
 						}
 					}
 				}
-
+				if res.Intent == "DeleteReminder" {
+					for _, k := range res.Entities {
+						r.DeleteReminder(k)
+					}
+				}
 				msng.SendTextMessage(userID, res.FulfillmentText)
 
 			case msg.Delivery != nil:
