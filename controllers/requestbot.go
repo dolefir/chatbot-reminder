@@ -7,7 +7,7 @@ import (
 	"github.com/simplewayua/chatbot-reminder/config"
 	"github.com/simplewayua/chatbot-reminder/dialogflowmap"
 	"github.com/simplewayua/chatbot-reminder/models"
-	"github.com/simplewayua/chatbot-reminder/service"
+	"github.com/simplewayua/chatbot-reminder/services"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -131,7 +131,7 @@ func MessagesWebhookHandler(c *gin.Context) {
 					}
 				}
 
-				go service.MonitorBotNotification(msng)
+				go services.MonitorBotNotification(msng)
 
 				msng.SendTextMessage(userID, res.FulfillmentText)
 
