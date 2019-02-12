@@ -40,14 +40,14 @@ func (dp *DialogFlowProcessor) Init(arr ...string) (*DialogFlowProcessor, error)
 	dp.ctx = context.Background()
 	sessionClient, err := dialogflow.NewSessionsClient(dp.ctx, option.WithCredentialsFile(dp.authJSONFilePath))
 	if err != nil {
-		log.Fatal("Error in auth with DialogFlow")
+		panic("Error in auth with DialogFlow")
 	}
 	dp.sessionClient = sessionClient
 
 	return dp, nil
 }
 
-func (dp *DialogFlowProcessor) ProcessNPL(rawMessage, username string) (r NPLResponse) {
+func (dp *DialogFlowProcessor) ProcessNPL(rawMessage, username string) (r NPLResponse, err error) {
 	sessionID := username
 	req := dialogflowpb.DetectIntentRequest{
 		Session: fmt.Sprintf("projects/%s/agent/sessions/%s", dp.projectID, sessionID),

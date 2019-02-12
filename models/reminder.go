@@ -5,6 +5,7 @@ import (
 	"github.com/simplewayua/chatbot-reminder/db"
 	"github.com/simplewayua/chatbot-reminder/dialogflowmap"
 	"strings"
+	"time"
 )
 
 // Reminder ...
@@ -39,7 +40,7 @@ func (r *Reminder) SaveData() (err error) {
 }
 
 // ToReminder ...
-func (r *Reminder) ToReminder(response *dialogflowmap.NPLResponse) (*Reminder, error) {
+func DialoglowResponseToReminder(response *dialogflowmap.NPLResponse) (*Reminder, error) {
 	b, err := json.Marshal(response)
 	if err != nil {
 		return nil, err
@@ -60,30 +61,55 @@ func (r *Reminder) ToReminder(response *dialogflowmap.NPLResponse) (*Reminder, e
 }
 
 // GetTimesReminder ...
-func (r *Reminder) GetTimesReminder(t string) (rems []Reminder) {
+func GetTimesReminder(t string) (rems []Reminder, err error) {
 	var getDB = db.GetDB()
 	s := strings.Split(t, "T")
 	tm := s[0]
-	getDB.Where("time LIKE ? AND position = ?", tm+"%", 0).Find(&rems)
+	if err = getDB.Where("time LIKE ? AND position = ?", tm+"%", 0).Find(&rems).Error; err != nil {
+		return nil, err
+	}
 	return
 }
 
 // DeleteReminder ...
-func (r *Reminder) DeleteReminder(t string) {
+func DeleteReminder(t string) (err error) {
 	var getDB = db.GetDB()
-	getDB.Where("text LIKE ?", "%"+t+"%").Delete(Reminder{})
+	if err = getDB.Where("text LIKE ?", "%"+t+"%").Delete(Reminder{}).Error; err != nil {
+		return err
+	}
+	return nil
 }
 
 // GetAllTimeReminder for notification
-func (r *Reminder) GetAllTimeReminder() (rems []Reminder) {
+func GetAllTimeReminder() (rems []Reminder, err error) {
 	var getDB = db.GetDB()
-	getDB.Find(&rems)
-	return rems
+	if err := getDB.Find(&rems).Error; err != nil {
+		return nil, err
+	}
+	return
 }
 
 // UpdateReminderPosition ...
-func (r *Reminder) UpdateReminderPosition(v Reminder) *Reminder {
+func UpdateReminderPosition(v Reminder) (*Reminder, error) {
 	var getDB = db.GetDB()
-	getDB.Where("text = ?", v.Text).First(&v)
-	return &v
+	if err := getDB.Where("text = ?", v.Text).First(&v).Error; err != nil {
+		return nil, err
+	}
+	return &v, nil
+}
+
+// UpdateReminderNotificationTime ...
+func UpdateReminderNotificationTime() (*Reminder, error) {
+	var getDB = db.GetDB()
+	r := Reminder{}
+
+	now := time.Now()
+	t := strings.SplitAfterN(time.Now().Format(time.RFC3339), ":", 3)
+	timeF := t[0] + t[1]
+	if err := getDB.Where("time LIKE ?", timeF+"%").First(&r).Error; err != nil {
+		return nil, err
+	}
+	r.Time = now.Add(10 * time.Minute).Format(time.RFC3339)
+	r.Position = 0
+	return nil, nil
 }

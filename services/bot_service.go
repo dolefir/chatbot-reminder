@@ -8,12 +8,13 @@ import (
 	"time"
 )
 
-var r models.Reminder
-
 // MonitorBotNotification notification
 func MonitorBotNotification(msng *messenger.Messenger) {
 	for {
-		reminders := r.GetAllTimeReminder()
+		reminders, err := models.GetAllTimeReminder()
+		if err != nil {
+			continue
+		}
 		t := time.Now()
 		fTimeNow := formatTimeNow(&t)
 
@@ -21,15 +22,29 @@ func MonitorBotNotification(msng *messenger.Messenger) {
 			fTimeDB := dbFormatTime(v.Time)
 
 			if fTimeDB == fTimeNow && v.Position == 0 {
-				uNameToInt, _ := strconv.ParseInt(v.NameID, 10, 64)
-				msng.SendTextMessage(uNameToInt, v.Text)
-				reminder := r.UpdateReminderPosition(v)
+				nameToInt, _ := strconv.ParseInt(v.NameID, 10, 64)
+				gm := PostBackMessage(msng, nameToInt, v)
+				msng.SendMessage(gm)
+
+				reminder, err := models.UpdateReminderPosition(v)
+				if err != nil {
+					continue
+				}
 				reminder.Position = 1
 				reminder.SaveData()
 			}
 		}
-		time.Sleep(time.Minute * 2)
+		time.Sleep(time.Minute)
 	}
+}
+
+// PostBackMessage ...
+func PostBackMessage(msng *messenger.Messenger, u int64, r models.Reminder) (g *messenger.GenericMessage) {
+	btn1 := msng.NewPostbackButton("accept", "ACCEPT")
+	btn2 := msng.NewPostbackButton("snooze", "SNOOZE")
+	gm := msng.NewGenericMessage(u)
+	gm.AddElement(messenger.Element{Title: r.Text, Subtitle: "Notification", Buttons: []messenger.Button{btn1, btn2}})
+	return &gm
 }
 
 func formatTimeNow(t *time.Time) (timeF string) {
