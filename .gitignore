@@ -21,6 +21,7 @@ _test
 _testmain.go
 
 /VERSION.cache
+/Reminders.zip
 /bin/
 /fixtures
 /config/reminders-65661-5bbb4c0b2885.json
