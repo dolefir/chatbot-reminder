@@ -25,7 +25,6 @@ func MonitorBotNotification(msng *messenger.Messenger) {
 				nameToInt, _ := strconv.ParseInt(v.NameID, 10, 64)
 				gm := PostBackMessage(msng, nameToInt, v)
 				msng.SendMessage(gm)
-
 				reminder, err := models.UpdateReminderPosition(v)
 				if err != nil {
 					continue
@@ -41,7 +40,7 @@ func MonitorBotNotification(msng *messenger.Messenger) {
 // PostBackMessage ...
 func PostBackMessage(msng *messenger.Messenger, u int64, r models.Reminder) (g *messenger.GenericMessage) {
 	btn1 := msng.NewPostbackButton("accept", "ACCEPT")
-	btn2 := msng.NewPostbackButton("snooze", "SNOOZE")
+	btn2 := msng.NewPostbackButton("snooze", "SNOOZE "+strconv.Itoa(int(r.ID)))
 	gm := msng.NewGenericMessage(u)
 	gm.AddElement(messenger.Element{Title: r.Text, Subtitle: "Notification", Buttons: []messenger.Button{btn1, btn2}})
 	return &gm

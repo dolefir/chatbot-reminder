@@ -99,17 +99,15 @@ func UpdateReminderPosition(v Reminder) (*Reminder, error) {
 }
 
 // UpdateReminderNotificationTime ...
-func UpdateReminderNotificationTime() (*Reminder, error) {
+func UpdateReminderNotificationTime(id int64) (*Reminder, error) {
 	var getDB = db.GetDB()
 	r := Reminder{}
 
 	now := time.Now()
-	t := strings.SplitAfterN(time.Now().Format(time.RFC3339), ":", 3)
-	timeF := t[0] + t[1]
-	if err := getDB.Where("time LIKE ?", timeF+"%").First(&r).Error; err != nil {
+	if err := getDB.Where("id = ?", id).First(&r).Error; err != nil {
 		return nil, err
 	}
 	r.Time = now.Add(10 * time.Minute).Format(time.RFC3339)
 	r.Position = 0
-	return nil, nil
+	return &r, nil
 }

@@ -10,6 +10,15 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
+)
+
+const (
+	GetData   = "GetDateWithTime"
+	GetList   = "GetListReminder"
+	Delete    = "DeleteReminder"
+	ActionOne = "ACCEPT"
+	ActionTwo = "SNOOZE"
 )
 
 // var dp dialogflowmap.DialogFlowProcessor
@@ -61,7 +70,7 @@ func MessagesWebhookHandler(c *gin.Context) {
 				}
 				// Use NPLResponse
 				res, _ := dp.ProcessNPL(msg.Message.Text, strconv.Itoa(int(userID)))
-				if res.Intent == "GetDateWithTime" {
+				if res.Intent == GetData {
 					result, err := models.DialoglowResponseToReminder(&res)
 					if err != nil {
 						msng.SendTextMessage(userID, "Sorry have a trouble! :(")
@@ -74,7 +83,7 @@ func MessagesWebhookHandler(c *gin.Context) {
 					user.SaveData()
 				}
 
-				if res.Intent == "GetListReminder" {
+				if res.Intent == GetList {
 					for _, k := range res.Entities {
 						lists, err := models.GetTimesReminder(k)
 						if err != nil {
@@ -92,7 +101,7 @@ func MessagesWebhookHandler(c *gin.Context) {
 					}
 				}
 
-				if res.Intent == "DeleteReminder" {
+				if res.Intent == Delete {
 					for _, k := range res.Entities {
 						models.DeleteReminder(k)
 					}
@@ -106,14 +115,19 @@ func MessagesWebhookHandler(c *gin.Context) {
 			case msg.Postback != nil:
 				// postback received, check First example what can you do with that
 				log.Println("Postback received with content:", msg.Postback.Payload)
-				if msg.Postback.Payload == "ACCEPT" {
+				if msg.Postback.Payload == ActionOne {
 					msng.SendTextMessage(userID, "Thank")
 				}
-				if msg.Postback.Payload == "SNOOZE" {
-					_, err := models.UpdateReminderNotificationTime()
+				// pull notification id
+				s := strings.Split(msg.Postback.Payload, " ")
+				if ActionTwo == s[0] {
+					i, _ := strconv.ParseInt(s[1], 10, 64)
+					rem, err := models.UpdateReminderNotificationTime(i)
 					if err != nil {
-						panic(err)
+						log.Println(err)
+						msng.SendTextMessage(userID, "Opps... sorry")
 					}
+					rem.SaveData()
 					msng.SendTextMessage(userID, "Ok, I will postpone the reminder for 10 minutes")
 				}
 			}
