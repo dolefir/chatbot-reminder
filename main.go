@@ -2,15 +2,16 @@ package main
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
-	"github.com/mileusna/facebook-messenger"
-	"github.com/simplewayua/chatbot-reminder/controllers"
-	"github.com/simplewayua/chatbot-reminder/db"
-	"github.com/simplewayua/chatbot-reminder/models"
-	"github.com/simplewayua/chatbot-reminder/services"
 	"log"
 	"os"
+
+	"github.com/dolefir/chatbot-reminder/controllers"
+	"github.com/dolefir/chatbot-reminder/db"
+	"github.com/dolefir/chatbot-reminder/models"
+	"github.com/dolefir/chatbot-reminder/services"
+	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
+	messenger "github.com/mileusna/facebook-messenger"
 )
 
 func main() {

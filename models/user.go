@@ -1,8 +1,9 @@
 package models
 
 import (
-	"github.com/simplewayua/chatbot-reminder/db"
 	"time"
+
+	"github.com/dolefir/chatbot-reminder/db"
 )
 
 // User has many Reminders, ID is the foreign key

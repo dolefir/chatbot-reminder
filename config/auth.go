@@ -1,8 +1,9 @@
 package config
 
 import (
-	"github.com/simplewayua/chatbot-reminder/dialogflowmap"
 	"os"
+
+	"github.com/dolefir/chatbot-reminder/dialogflowmap"
 )
 
 var dp dialogflowmap.DialogFlowProcessor

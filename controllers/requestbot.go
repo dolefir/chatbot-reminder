@@ -1,16 +1,17 @@
 package controllers
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/mileusna/facebook-messenger"
-	"github.com/simplewayua/chatbot-reminder/config"
-	"github.com/simplewayua/chatbot-reminder/dialogflowmap"
-	"github.com/simplewayua/chatbot-reminder/models"
 	"log"
 	"net/http"
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/dolefir/chatbot-reminder/config"
+	"github.com/dolefir/chatbot-reminder/dialogflowmap"
+	"github.com/dolefir/chatbot-reminder/models"
+	"github.com/gin-gonic/gin"
+	messenger "github.com/mileusna/facebook-messenger"
 )
 
 const (

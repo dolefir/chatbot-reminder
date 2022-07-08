@@ -1,7 +1,7 @@
 package models
 
 import (
-	"github.com/simplewayua/chatbot-reminder/db"
+	"github.com/dolefir/chatbot-reminder/db"
 )
 
 // AutoMigrate ...

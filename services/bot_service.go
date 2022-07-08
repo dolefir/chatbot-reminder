@@ -1,11 +1,12 @@
 package services
 
 import (
-	"github.com/mileusna/facebook-messenger"
-	"github.com/simplewayua/chatbot-reminder/models"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/dolefir/chatbot-reminder/models"
+	messenger "github.com/mileusna/facebook-messenger"
 )
 
 // MonitorBotNotification notification

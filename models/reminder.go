@@ -2,10 +2,11 @@ package models
 
 import (
 	"encoding/json"
-	"github.com/simplewayua/chatbot-reminder/db"
-	"github.com/simplewayua/chatbot-reminder/dialogflowmap"
 	"strings"
 	"time"
+
+	"github.com/dolefir/chatbot-reminder/db"
+	"github.com/dolefir/chatbot-reminder/dialogflowmap"
 )
 
 // Reminder ...
