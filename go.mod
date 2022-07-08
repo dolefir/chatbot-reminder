@@ -3,43 +3,47 @@ module dolefir/chatbot-reminder
 go 1.18
 
 require (
-	cloud.google.com/go v0.36.0
-	github.com/gin-gonic/gin v1.3.0
-	github.com/golang/protobuf v1.2.0
-	github.com/jinzhu/gorm v1.9.2
-	github.com/joho/godotenv v1.3.0
-	github.com/mileusna/facebook-messenger v0.0.0-20170622184612-613a2157fa62
+	cloud.google.com/go/dialogflow v1.11.0
 	github.com/dolefir/chatbot-reminder v0.0.0-20190301105820-39dcdb0adee4
-	google.golang.org/api v0.1.0
-	google.golang.org/genproto v0.0.0-20190201180003-4b09977fb922
+	github.com/gin-gonic/gin v1.8.1
+	github.com/golang/protobuf v1.5.2
+	github.com/jinzhu/gorm v1.9.16
+	github.com/joho/godotenv v1.4.0
+	github.com/mileusna/facebook-messenger v0.6.0
+	google.golang.org/api v0.86.0
+	google.golang.org/genproto v0.0.0-20220707150051-590a5ac7bee1
 )
 
 require (
-	github.com/denisenkom/go-mssqldb v0.12.2 // indirect
-	github.com/erikstmartin/go-testdb v0.0.0-20160219214506-8d10e4a1bae5 // indirect
-	github.com/gin-contrib/sse v0.0.0-20190125020943-a7658810eb74 // indirect
-	github.com/go-sql-driver/mysql v1.6.0 // indirect
-	github.com/gofrs/uuid v4.2.0+incompatible // indirect
-	github.com/googleapis/gax-go/v2 v2.0.3 // indirect
-	github.com/jinzhu/inflection v0.0.0-20180308033659-04140366298a // indirect
-	github.com/jinzhu/now v1.1.5 // indirect
-	github.com/json-iterator/go v1.1.5 // indirect
-	github.com/lib/pq v1.0.0 // indirect
-	github.com/mattn/go-isatty v0.0.4 // indirect
-	github.com/mattn/go-sqlite3 v1.14.14 // indirect
-	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
-	github.com/modern-go/reflect2 v0.0.0-20180701023420-4b7aa43c6742 // indirect
-	github.com/stretchr/testify v1.7.0 // indirect
+	cloud.google.com/go v0.102.1 // indirect
+	cloud.google.com/go/compute v1.7.0 // indirect
+	github.com/gin-contrib/sse v0.1.0 // indirect
+	github.com/go-playground/locales v0.14.0 // indirect
+	github.com/go-playground/universal-translator v0.18.0 // indirect
+	github.com/go-playground/validator/v10 v10.10.0 // indirect
+	github.com/goccy/go-json v0.9.7 // indirect
+	github.com/golang/groupcache v0.0.0-20200121045136-8c9f03a8e57e // indirect
+	github.com/google/go-cmp v0.5.8 // indirect
+	github.com/googleapis/enterprise-certificate-proxy v0.1.0 // indirect
+	github.com/googleapis/gax-go/v2 v2.4.0 // indirect
+	github.com/jinzhu/inflection v1.0.0 // indirect
+	github.com/json-iterator/go v1.1.12 // indirect
+	github.com/leodido/go-urn v1.2.1 // indirect
+	github.com/lib/pq v1.1.1 // indirect
+	github.com/mattn/go-isatty v0.0.14 // indirect
+	github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421 // indirect
+	github.com/modern-go/reflect2 v1.0.2 // indirect
+	github.com/pelletier/go-toml/v2 v2.0.1 // indirect
+	github.com/simplewayua/chatbot-reminder v0.0.0-20190301105820-39dcdb0adee4 // indirect
 	github.com/ugorji/go/codec v1.2.7 // indirect
-	go.opencensus.io v0.19.0 // indirect
-	golang.org/x/net v0.0.0-20210610132358-84b48f89b13b // indirect
-	golang.org/x/oauth2 v0.0.0-20190130055435-99b60b757ec1 // indirect
-	golang.org/x/sys v0.0.0-20210423082822-04245dca01da // indirect
-	golang.org/x/text v0.3.6 // indirect
-	google.golang.org/appengine v1.4.0 // indirect
-	google.golang.org/grpc v1.18.0 // indirect
-	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
-	gopkg.in/go-playground/validator.v8 v8.18.2 // indirect
+	go.opencensus.io v0.23.0 // indirect
+	golang.org/x/crypto v0.0.0-20210711020723-a769d52b0f97 // indirect
+	golang.org/x/net v0.0.0-20220624214902-1bab6f366d9e // indirect
+	golang.org/x/oauth2 v0.0.0-20220622183110-fd043fe589d2 // indirect
+	golang.org/x/sys v0.0.0-20220624220833-87e55d714810 // indirect
+	golang.org/x/text v0.3.7 // indirect
+	google.golang.org/appengine v1.6.7 // indirect
+	google.golang.org/grpc v1.47.0 // indirect
+	google.golang.org/protobuf v1.28.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
-	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
 )
