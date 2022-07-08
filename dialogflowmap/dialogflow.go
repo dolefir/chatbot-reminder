@@ -1,14 +1,15 @@
 package dialogflowmap
 
 import (
-	dialogflow "cloud.google.com/go/dialogflow/apiv2"
 	"context"
 	"fmt"
-	"github.com/golang/protobuf/ptypes/struct"
-	"google.golang.org/api/option"
-	dialogflowpb "google.golang.org/genproto/googleapis/cloud/dialogflow/v2"
 	"log"
 	"strconv"
+
+	dialogflow "cloud.google.com/go/dialogflow/apiv2"
+	"google.golang.org/api/option"
+	dialogflowpb "google.golang.org/genproto/googleapis/cloud/dialogflow/v2"
+	structpb "google.golang.org/protobuf/types/known/structpb"
 )
 
 // DialogFlowProcessor action information for connecting with DialogFlow
