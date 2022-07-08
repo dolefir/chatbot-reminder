@@ -30,8 +30,6 @@ type NPLResponse struct {
 	Entities        map[string]string `json:"entities"`
 }
 
-var dp DialogFlowProcessor
-
 func (dp *DialogFlowProcessor) Init(arr ...string) (*DialogFlowProcessor, error) {
 	dp.projectID = arr[0]
 	dp.authJSONFilePath = arr[1]
